@@ -104,10 +104,15 @@ public:
 
 //TODO
 class PositiveArray : public SortedArray {
+private:
+
+public:
     PositiveArray(int size) : SortedArray(size) {}
 
     void addPostiveFloat(float f) {
-
+        if (f > 0) {
+            addSortedFloat(f);
+        }
     }
 };
 
@@ -122,13 +127,13 @@ class NegativeArray : public SortedArray {
 
 int main() {
 //    FloatArray x(3);
-    FrontArray y(6);
-    y.addFloatToFront(7.5);
-    y.addFloatToFront(3.5);
-    y.addFloatToFront(-1.5);
-    y.addFloatToFront(-1.5);
-    y.addFloatToFront(1.5);
-    y.addFloatToFront(0);
+    PositiveArray y(6);
+    y.addPostiveFloat(7.5);
+    y.addPostiveFloat(3.5);
+    y.addPostiveFloat(1.5);
+    y.addPostiveFloat(4.5);
+    y.addPostiveFloat(1.5);
+    y.addPostiveFloat(0);
 //    cin >> x;
 //    cout << x;
     y.print();
