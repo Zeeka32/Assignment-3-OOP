@@ -8,20 +8,24 @@ using namespace std;
 class FloatArray {
 protected:
     float *arr_;
+    bool *isTaken_;
     int size_;
 public:
     FloatArray(int size) {
         size_ = size;
+        isTaken_ = new bool[size_];
         arr_ = new float[size_];
         for (int i = 0; i < size_; ++i) {
             arr_[i] = 0;
+            isTaken_[i] = false;
         }
     }
 
     void addFloatToBack(float x) {
         for (int i = 0; i < size_; ++i) {
-            if (arr_[i] == 0) {
+            if (!isTaken_[i]) {
                 arr_[i] = x;
+                isTaken_[i] = true;
                 break;
             }
         }
@@ -29,7 +33,7 @@ public:
 
     //YASTA A7MOS ANA M4 FAHM 7AGA FI EL FILES
     friend ostream &operator<<(ostream &output, const FloatArray &rhs) {
-        ofstream outFile("out.txt");
+        ofstream outFile("output.txt");
         for (int i = 0; i < rhs.size_; i++) {
             outFile << rhs.arr_[i] << " ";
         }
@@ -61,7 +65,23 @@ public:
     SortedArray(int size) : FloatArray(size) {}
 
     void addSortedFloat(float f) {
-
+        for (int i = 0; i < size_; ++i) {
+            if (!isTaken_[i]) {
+                arr_[i] = f;
+                isTaken_[i] = true;
+                break;
+            } else {
+                if (arr_[i] <= f) {
+                    continue;
+                } else {
+                    for (int j = size_ - 1; j > i; --j) {
+                        swap(arr_[j], arr_[j - 1]);
+                    }
+                    arr_[i] = f;
+                    break;
+                }
+            }
+        }
     }
 
 };
@@ -96,7 +116,12 @@ class NegativeArray : public SortedArray {
 
 int main() {
     FloatArray x(3);
-    cin >> x;
-    x.print();
+    SortedArray y(3);
+    y.addSortedFloat(3.5);
+    y.addSortedFloat(7.5);
+    y.addSortedFloat(-1.5);
+//    cin >> x;
+//    cout << x;
+    y.print();
 
 }
