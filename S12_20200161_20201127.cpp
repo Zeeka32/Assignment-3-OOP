@@ -4,7 +4,7 @@
 
 using namespace std;
 
-//TODO
+//DONE
 class FloatArray {
 protected:
     float *arr_;
@@ -60,7 +60,7 @@ public:
     }
 };
 
-//TODO
+//DONE
 class SortedArray : public FloatArray {
 public:
     SortedArray(int size) : FloatArray(size) {}
@@ -89,13 +89,16 @@ public:
     }
 };
 
-//TODO
+//DONE
 class FrontArray : public FloatArray {
 public:
     FrontArray(int size) : FloatArray(size) {}
 
     void addFloatToFront(float f) {
-
+        for (int j = size_ - 1; j > 0; --j) {
+            swap(arr_[j], arr_[j - 1]);
+        }
+        arr_[0] = f;
     }
 };
 
@@ -118,11 +121,14 @@ class NegativeArray : public SortedArray {
 };
 
 int main() {
-    FloatArray x(3);
-    SortedArray y(3);
-    y.addSortedFloat(3.5);
-    y.addSortedFloat(7.5);
-    y.addSortedFloat(-1.5);
+//    FloatArray x(3);
+    FrontArray y(6);
+    y.addFloatToFront(7.5);
+    y.addFloatToFront(3.5);
+    y.addFloatToFront(-1.5);
+    y.addFloatToFront(-1.5);
+    y.addFloatToFront(1.5);
+    y.addFloatToFront(0);
 //    cin >> x;
 //    cout << x;
     y.print();
