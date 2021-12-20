@@ -30,14 +30,18 @@ public:
     //YASTA A7MOS ANA M4 FAHM 7AGA FI EL FILES
     friend ostream &operator<<(ostream &output, const FloatArray &rhs) {
         ofstream outFile("out.txt");
-            for(int i = 0; i < rhs.size_; i++){
-                outFile << rhs.arr_[i] << " ";
-            }
-            return output;
+        for (int i = 0; i < rhs.size_; i++) {
+            outFile << rhs.arr_[i] << " ";
+        }
+        return output;
     }
 
     friend istream &operator>>(istream &input, FloatArray &rhs) {
-
+        ifstream inFile("in.txt");
+        for (int i = 0; i < rhs.size_; i++) {
+            inFile >> rhs.arr_[i];
+        }
+        return input;
     }
 
     ~FloatArray() {
@@ -54,10 +58,10 @@ public:
 //TODO
 class SortedArray : public FloatArray {
 public:
-    SortedArray(int size) : FloatArray(size){}
+    SortedArray(int size) : FloatArray(size) {}
 
-    void addSortedFloat(float f){
-        
+    void addSortedFloat(float f) {
+
     }
 
 };
@@ -65,34 +69,37 @@ public:
 //TODO
 class FrontArray : public FloatArray {
 public:
-    FrontArray(int size) : FloatArray(size){}
+    FrontArray(int size) : FloatArray(size) {}
 
-    void addFloatToFront(float f){
-        
+    void addFloatToFront(float f) {
+
     }
 };
 
 //TODO
 class PositiveArray : public SortedArray {
-    PositiveArray(int size) : SortedArray(size){}
+    PositiveArray(int size) : SortedArray(size) {}
 
-    void addPostiveFloat(float f){
+    void addPostiveFloat(float f) {
 
     }
 };
 
 //TODO
 class NegativeArray : public SortedArray {
-    NegativeArray(int size) : SortedArray(size){}
+    NegativeArray(int size) : SortedArray(size) {}
 
-    void addNegativeFloat(float f){
+    void addNegativeFloat(float f) {
 
     }
 };
 
 int main() {
-    FloatArray x(3);
-    x.addFloatToBack(1.2);
-//    x.print();
+    ofstream infile;
+    infile.open("output.txt");
+    for (int i = 1; i <= 10; i++) {
+        infile << i;
+    }
+    infile.close();
 
 }
