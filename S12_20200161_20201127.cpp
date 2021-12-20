@@ -37,7 +37,7 @@ public:
     }
 
     friend istream &operator>>(istream &input, FloatArray &rhs) {
-        ifstream inFile("in.txt");
+        ifstream inFile("input.txt");
         for (int i = 0; i < rhs.size_; i++) {
             inFile >> rhs.arr_[i];
         }
@@ -48,11 +48,11 @@ public:
         delete[] arr_;
     }
 
-//    void print() {
-//        for (int i = 0; i < size_; ++i) {
-//            cout << arr[i] << " ";
-//        }
-//    }
+    void print() {
+        for (int i = 0; i < size_; ++i) {
+            cout << arr_[i] << " ";
+        }
+    }
 };
 
 //TODO
@@ -95,11 +95,8 @@ class NegativeArray : public SortedArray {
 };
 
 int main() {
-    ofstream infile;
-    infile.open("output.txt");
-    for (int i = 1; i <= 10; i++) {
-        infile << i;
-    }
-    infile.close();
+    FloatArray x(3);
+    cin >> x;
+    x.print();
 
 }
