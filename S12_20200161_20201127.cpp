@@ -9,7 +9,7 @@ class FloatArray {
 protected:
     float *arr_;
     bool *isTaken_;
-    int size_;
+    int size_, lastTaken_;
 public:
     FloatArray(int size) {
         size_ = size;
@@ -19,6 +19,7 @@ public:
             arr_[i] = 0;
             isTaken_[i] = false;
         }
+        lastTaken_ = 0;
     }
 
     void addFloatToBack(float x) {
@@ -69,6 +70,7 @@ public:
             if (!isTaken_[i]) {
                 arr_[i] = f;
                 isTaken_[i] = true;
+                lastTaken_++;
                 break;
             } else {
                 if (arr_[i] <= f) {
@@ -78,12 +80,13 @@ public:
                         swap(arr_[j], arr_[j - 1]);
                     }
                     arr_[i] = f;
+                    isTaken_[lastTaken_] = true;
+                    lastTaken_++;
                     break;
                 }
             }
         }
     }
-
 };
 
 //TODO
