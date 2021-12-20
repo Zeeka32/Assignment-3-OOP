@@ -6,10 +6,14 @@ using namespace std;
 
 //DONE
 class FloatArray {
+private:
+    int index_ = 0;
+
 protected:
     float *arr_;
     bool *isTaken_;
     int size_, lastTaken_;
+
 public:
     FloatArray(int size) {
         size_ = size;
@@ -22,17 +26,11 @@ public:
         lastTaken_ = 0;
     }
 
-    void addFloatToBack(float x) {
-        for (int i = 0; i < size_; ++i) {
-            if (!isTaken_[i]) {
-                arr_[i] = x;
-                isTaken_[i] = true;
-                break;
-            }
-        }
+    virtual void add(float x) {
+        arr_[index_++] = x;
     }
 
-    //YASTA A7MOS ANA M4 FAHM 7AGA FI EL FILES
+    //Needs fix الدكتورة عايزانا نخلي اليوزر يختار اسم الفايل الي هيطبع فيه و الي هياخد منه الانبوت في الماين مش هنا
     friend ostream &operator<<(ostream &output, const FloatArray &rhs) {
         ofstream outFile("output.txt");
         for (int i = 0; i < rhs.size_; i++) {
@@ -60,12 +58,12 @@ public:
     }
 };
 
-//DONE
+//DONE - not yet checked.
 class SortedArray : public FloatArray {
 public:
     SortedArray(int size) : FloatArray(size) {}
 
-    void addSortedFloat(float f) {
+    void add(float f) {
         for (int i = 0; i < size_; ++i) {
             if (!isTaken_[i]) {
                 arr_[i] = f;
@@ -89,58 +87,54 @@ public:
     }
 };
 
-//DONE
+//kinda done
 class FrontArray : public FloatArray {
+private:
+    int index_;
+    
 public:
-    FrontArray(int size) : FloatArray(size) {}
+    FrontArray(int size) : FloatArray(size) {index_ = size_ - 1;}
 
-    void addFloatToFront(float f) {
-        for (int j = size_ - 1; j > 0; --j) {
-            swap(arr_[j], arr_[j - 1]);
-        }
-        arr_[0] = f;
+    void add(float f) {
+        arr_[index_--] = f;
     }
 };
 
-//TODO
+//Mostly done
 class PositiveArray : public SortedArray {
-private:
-
 public:
     PositiveArray(int size) : SortedArray(size) {}
 
-    void addPostiveFloat(float f) {
+    void add(float f) {
         if (f > 0) {
-            addSortedFloat(f);
+            SortedArray::add(f);
         }
     }
 };
 
-//TODO
+//Mostly done
 class NegativeArray : public SortedArray {
-private:
-
 public:
     NegativeArray(int size) : SortedArray(size) {}
 
-    void addNegativeFloat(float f) {
+    void add(float f) {
         if (f < 0) {
-            addSortedFloat(f);
+            SortedArray::add(f);
         }
     }
 };
 
+//in progress ...
 int main() {
-//    FloatArray x(3);
-    NegativeArray y(6);
-    y.addNegativeFloat(7.5);
-    y.addNegativeFloat(-3.5);
-    y.addNegativeFloat(-1.5);
-    y.addNegativeFloat(-4.5);
-    y.addNegativeFloat(-1.5);
-    y.addNegativeFloat(0);
-//    cin >> x;
-//    cout << x;
-    y.print();
+    string inputF, outputF;
+
+    ifstream inFile;
+    cout << "Enter the input file's name\n";
+    cin >> inputF;
+    inFile.open(inputF.c_str());
+
+    cout << "Enter the output file's name\n";
+    cin >> outputF;
+    ofstream(outputF + "", ios::app);
 
 }
