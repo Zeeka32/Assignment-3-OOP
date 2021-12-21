@@ -1,10 +1,10 @@
 //Amr Riyad - 20201127 || Hussien Mostafa - 20200161
 #include <iostream>
 #include <fstream>
-
 using namespace std;
 
-//DONE
+string inputF, outputF;
+
 class FloatArray {
 private:
     int index_ = 0;
@@ -30,20 +30,20 @@ public:
         arr_[index_++] = x;
     }
 
-    //Needs fix الدكتورة عايزانا نخلي اليوزر يختار اسم الفايل الي هيطبع فيه و الي هياخد منه الانبوت في الماين مش هنا
     friend ostream &operator<<(ostream &output, const FloatArray &rhs) {
-        ofstream outFile("output.txt");
+        ofstream outFile(outputF + "", ios::app);
+        outFile << rhs.size_ << "|";
         for (int i = 0; i < rhs.size_; i++) {
-            outFile << rhs.arr_[i] << " ";
+            outFile << "\t" << rhs.arr_[i];
         }
+        outFile << "\n";
         return output;
     }
 
     friend istream &operator>>(istream &input, FloatArray &rhs) {
-        ifstream inFile("input.txt");
-        for (int i = 0; i < rhs.size_; i++) {
-            inFile >> rhs.arr_[i];
-        }
+        float x;
+        input >> x;
+        rhs.add(x);
         return input;
     }
 
@@ -58,7 +58,6 @@ public:
     }
 };
 
-//DONE - not yet checked.
 class SortedArray : public FloatArray {
 public:
     SortedArray(int size) : FloatArray(size) {}
@@ -87,7 +86,6 @@ public:
     }
 };
 
-//kinda done
 class FrontArray : public FloatArray {
 private:
     int index_;
@@ -108,7 +106,7 @@ public:
     void add(float f) {
         if (f > 0) {
             SortedArray::add(f);
-        }
+        }else size_--;
     }
 };
 
@@ -120,21 +118,73 @@ public:
     void add(float f) {
         if (f < 0) {
             SortedArray::add(f);
-        }
+        }else size_--;
     }
 };
 
 //in progress ...
 int main() {
-    string inputF, outputF;
 
-    ifstream inFile;
+    string classType; int size;
     cout << "Enter the input file's name\n";
     cin >> inputF;
-    inFile.open(inputF.c_str());
 
     cout << "Enter the output file's name\n";
     cin >> outputF;
-    ofstream(outputF + "", ios::app);
+    
+    ifstream inFile; inFile.open(inputF.c_str());
+    int t = 10;
+    while(t--){
+        inFile >> classType;
+        inFile >> size;
+        if(classType == "Sorted")
+        {
+            FloatArray* object = new SortedArray(size);
+            for(int i = 0; i < size; i++)
+            {
+                inFile >> *object;
+            }
+            cout << *object;
+        }
 
+
+        else if(classType == "Array")
+        {
+            FloatArray* object = new FloatArray(size);
+            for(int i = 0; i < size; i++){
+                inFile >> *object;
+            }
+            cout << *object;
+        }
+
+
+        else if(classType == "Front")
+        {
+            FloatArray* object = new FrontArray(size);
+            for(int i = 0; i < size; i++){
+                inFile >> *object;
+            }
+            cout << *object;
+        }
+
+
+        else if(classType == "Positive")
+        {
+            FloatArray* object = new PositiveArray(size);
+            for(int i = 0; i < size; i++){
+                inFile >> *object;
+            }
+            cout << *object;
+        }
+
+
+        else if(classType == "Negative")
+        {
+            FloatArray* object = new NegativeArray(size);
+            for(int i = 0; i < size; i++){
+                inFile >> *object;
+            }
+            cout << *object;
+        }
+    }
 }
