@@ -31,7 +31,7 @@ public:
     }
 
     friend ostream &operator<<(ostream &output, const FloatArray &rhs) {
-        ofstream outFile(outputF + "", ios::app);
+        ofstream outFile(outputF, ios::app);
         outFile << rhs.size_ << "|";
         for (int i = 0; i < rhs.size_; i++) {
             outFile << "\t" << rhs.arr_[i];
@@ -122,7 +122,7 @@ public:
     }
 };
 
-//in progress ...
+//DONE
 int main() {
 
     string classType; int size;
@@ -133,8 +133,8 @@ int main() {
     cin >> outputF;
     
     ifstream inFile; inFile.open(inputF.c_str());
-    int t = 10;
-    while(t--){
+    while(!inFile.eof()){
+        
         inFile >> classType;
         inFile >> size;
         if(classType == "Sorted")
@@ -145,6 +145,7 @@ int main() {
                 inFile >> *object;
             }
             cout << *object;
+            delete object;
         }
 
 
@@ -155,6 +156,7 @@ int main() {
                 inFile >> *object;
             }
             cout << *object;
+            delete object;
         }
 
 
@@ -165,6 +167,7 @@ int main() {
                 inFile >> *object;
             }
             cout << *object;
+            delete object;
         }
 
 
@@ -175,6 +178,7 @@ int main() {
                 inFile >> *object;
             }
             cout << *object;
+            delete object;
         }
 
 
@@ -185,6 +189,8 @@ int main() {
                 inFile >> *object;
             }
             cout << *object;
+            delete object;
         }
     }
+    inFile.close();
 }
