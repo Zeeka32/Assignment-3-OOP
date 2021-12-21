@@ -133,7 +133,7 @@ int main() {
     cin >> outputF;
     
     ifstream inFile; inFile.open(inputF.c_str());
-    while(!inFile.eof()){
+    while(!inFile.eof()) {
         
         inFile >> classType;
         inFile >> size;
