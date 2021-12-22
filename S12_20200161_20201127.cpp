@@ -68,19 +68,26 @@ public:
     SortedArray(int size) : FloatArray(size) {}
 
     void add(float f) {
-        for (int i = 0; i < size_; ++i) {
-            if (!isTaken_[i]) {
+
+        for (int i = 0; i < size_; ++i) 
+        {
+            if (!isTaken_[i]) 
+            {
                 arr_[i] = f;
                 isTaken_[i] = true;
                 lastTaken_++;
                 break;
-            } else {
+            } 
+            else
+            {
                 if (arr_[i] <= f) {
                     continue;
                 } else {
-                    for (int j = size_ - 1; j > i; --j) {
+                    for (int j = size_ - 1; j > i; --j) 
+                    {
                         swap(arr_[j], arr_[j - 1]);
                     }
+                    
                     arr_[i] = f;
                     isTaken_[lastTaken_] = true;
                     lastTaken_++;
@@ -103,7 +110,7 @@ public:
     }
 };
 
-//Mostly done
+
 class PositiveArray : public SortedArray {
 public:
     PositiveArray(int size) : SortedArray(size) {}
@@ -115,7 +122,7 @@ public:
     }
 };
 
-//Mostly done
+
 class NegativeArray : public SortedArray {
 public:
     NegativeArray(int size) : SortedArray(size) {}
@@ -127,7 +134,7 @@ public:
     }
 };
 
-//DONE
+
 int main() {
 
     string classType; int size;
