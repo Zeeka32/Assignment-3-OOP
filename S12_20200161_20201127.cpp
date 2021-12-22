@@ -3,10 +3,13 @@
 #include <fstream>
 using namespace std;
 
+//Input and output file names that the user will manually enter.
 string inputF, outputF;
 
+//The abstract class FloatArray.
 class FloatArray {
 private:
+    //A private int member to count the index of the array to know where to put the next element.
     int index_ = 0;
 
 protected:
@@ -15,6 +18,8 @@ protected:
     int size_, lastTaken_;
 
 public:
+
+    //A paramatrized constructor for the FloatArray class.
     FloatArray(int size) {
         size_ = size;
         isTaken_ = new bool[size_];
@@ -26,10 +31,12 @@ public:
         lastTaken_ = 0;
     }
 
+    //a polymorphism function in this class it simply fills up an array the usual way.
     virtual void add(float x) {
         arr_[index_++] = x;
     }
 
+    //overloading the insertion operator to print output to a file.
     friend ostream &operator<<(ostream &output, const FloatArray &rhs) {
         ofstream outFile(outputF, ios::app);
         outFile << rhs.size_ << "|";
@@ -40,6 +47,7 @@ public:
         return output;
     }
 
+    //overloading the extraction operator to read the inputs from a file.
     friend istream &operator>>(istream &input, FloatArray &rhs) {
         float x;
         input >> x;
@@ -47,15 +55,12 @@ public:
         return input;
     }
 
+    //the destructor for the Float array.
     ~FloatArray() {
         delete[] arr_;
+        delete[] isTaken_;
     }
 
-    void print() {
-        for (int i = 0; i < size_; ++i) {
-            cout << arr_[i] << " ";
-        }
-    }
 };
 
 class SortedArray : public FloatArray {
