@@ -144,65 +144,63 @@ int main() {
     cout << "Enter the output file's name\n";
     cin >> outputF;
     
+    FloatArray* objects[10];
     ifstream inFile; inFile.open(inputF.c_str());
+    int k = 0;
     while(!inFile.eof()) {
-        
         inFile >> classType;
         inFile >> size;
         if(classType == "Sorted")
         {
-            FloatArray* object = new SortedArray(size);
+            objects[k] = new SortedArray(size);
             for(int i = 0; i < size; i++)
             {
-                inFile >> *object;
+                inFile >> *(objects[k]);
             }
-            cout << *object;
-            delete object;
+            cout << *(objects[k]); k++;
         }
 
 
         else if(classType == "Array")
         {
-            FloatArray* object = new FloatArray(size);
+            objects[k]  = new FloatArray(size);
             for(int i = 0; i < size; i++){
-                inFile >> *object;
+                inFile >> *(objects[k]);
             }
-            cout << *object;
-            delete object;
+            cout << *(objects[k]); k++;
         }
 
 
         else if(classType == "Front")
         {
-            FloatArray* object = new FrontArray(size);
+            objects[k] = new FrontArray(size);
             for(int i = 0; i < size; i++){
-                inFile >> *object;
+                inFile >> *(objects[k]);
             }
-            cout << *object;
-            delete object;
+            cout << *(objects[k]); k++;
         }
 
 
         else if(classType == "Positive")
         {
-            FloatArray* object = new PositiveArray(size);
+            objects[k]  = new PositiveArray(size);
             for(int i = 0; i < size; i++){
-                inFile >> *object;
+                inFile >> *(objects[k]);
             }
-            cout << *object;
-            delete object;
+            cout << *(objects[k]); k++;
         }
 
 
         else if(classType == "Negative")
         {
-            FloatArray* object = new NegativeArray(size);
+            objects[k] = new NegativeArray(size);
             for(int i = 0; i < size; i++){
-                inFile >> *object;
+                inFile >> *objects[k];
             }
-            cout << *object;
-            delete object;
+            cout << *objects[k];
         }
     }
+
+    delete [] objects;
     inFile.close();
 }
