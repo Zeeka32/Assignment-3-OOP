@@ -87,17 +87,17 @@ public:
                 isTaken_[i] = true;
                 lastTaken_++;
                 break;
-            }
+            } else {
+
                 //if an element already exists we compare if it's larger or smaller than the
                 //existing element. if it's larger then we just continue.
-            else {
                 if (arr_[i] <= f) {
                     continue;
-                }
-                    //however if the element is smaller than existing element:
+                } else {
+
+                    //however, if the element is smaller than existing element
                     //we shift the array to the left starting from the posistion
                     //of the desired index.
-                else {
                     for (int j = size_ - 1; j > i; --j) {
                         swap(arr_[j], arr_[j - 1]);
                     }
@@ -112,16 +112,17 @@ public:
             }
         }
     }
-
+    
+    //destructor for the SortedArray class to free allocated memory.
     ~SortedArray() {
         delete[] isTaken_;
     }
 };
 
+
 class FrontArray : public FloatArray {
 private:
     int index_;
-
 public:
     FrontArray(int size) : FloatArray(size) { index_ = size_ - 1; }
 
@@ -155,20 +156,19 @@ public:
 };
 
 
-int main() {
-
+int main(void) {
     string classType;
-    int size;
+    int size, k = 0;
     cout << "Enter the input file's name\n";
     cin >> inputF;
 
     cout << "Enter the output file's name\n";
     cin >> outputF;
 
-    FloatArray *objects[10];
     ifstream inFile;
+    FloatArray *objects[10];
     inFile.open(inputF.c_str());
-    int k = 0;
+    
     while (!inFile.eof()) {
         inFile >> classType;
         inFile >> size;
@@ -177,35 +177,37 @@ int main() {
             for (int i = 0; i < size; i++) {
                 inFile >> *(objects[k]);
             }
-            cout << *objects[k];
-            k++;
+            cout << *objects[k++];
+            
         } else if (classType == "Array") {
             objects[k] = new FloatArray(size);
             for (int i = 0; i < size; i++) {
-                inFile >> *(objects[k]);
+                inFile >> *objects[k];
             }
-            cout << *objects[k];
-            k++;
+            cout << *objects[k++];
+
         } else if (classType == "Front") {
             objects[k] = new FrontArray(size);
             for (int i = 0; i < size; i++) {
-                inFile >> *(objects[k]);
+                inFile >> *objects[k];
             }
-            cout << *objects[k];
-            k++;
+            cout << *objects[k++];
+
+
         } else if (classType == "Positive") {
             objects[k] = new PositiveArray(size);
             for (int i = 0; i < size; i++) {
-                inFile >> *(objects[k]);
+                inFile >> *objects[k];
             }
-            cout << *objects[k];
-            k++;
+            cout << *objects[k++];
+
+            
         } else if (classType == "Negative") {
             objects[k] = new NegativeArray(size);
             for (int i = 0; i < size; i++) {
                 inFile >> *objects[k];
             }
-            cout << *objects[k];
+            cout << *objects[k++];
         }
     }
 
@@ -213,6 +215,5 @@ int main() {
     for (int i = 0; i < 10; i++)
         delete objects[i];
     delete *objects;
-
     inFile.close();
 }
