@@ -1,6 +1,7 @@
 //Amr Riyad - 20201127 || Hussien Mostafa - 20200161
 #include <iostream>
 #include <fstream>
+
 using namespace std;
 
 //Input and output file names that the user will manually enter.
@@ -40,7 +41,7 @@ public:
     //overloading the extraction operator to read the inputs from a file.
     //it first stores the float from the file then calls the right add function.
     //using polymorphism.
-    friend istream &operator>>(istream &input, FloatArray &rhs) { 
+    friend istream &operator>>(istream &input, FloatArray &rhs) {
         float number;
         input >> number;
         rhs.add(number);
@@ -59,15 +60,14 @@ public:
 class SortedArray : public FloatArray {
 private:
     //these members are used for the sorting algorithm.
-     bool *isTaken_;
-     int lastTaken_;
+    bool *isTaken_;
+    int lastTaken_;
 public:
 
     //the parameterized constructor for the SortedAarray class.
     //we initialize an array of booleans to help with the sorting algo.
     //and the last taken variable to store the index of the last taken element.
-    SortedArray(int size) : FloatArray(size)
-    {
+    SortedArray(int size) : FloatArray(size) {
         isTaken_ = new bool[size_];
         for (int i = 0; i < size_; ++i) {
             arr_[i] = 0;
@@ -78,7 +78,7 @@ public:
 
     //the add function for the SortedArray class.
     void add(float f) {
-        
+
         //if the slot is empty put an element in said slot and said slot's index.
         //becomes true meaning there is an element there.
         for (int i = 0; i < size_; ++i) {
@@ -87,21 +87,21 @@ public:
                 isTaken_[i] = true;
                 lastTaken_++;
                 break;
-            } 
-            //if an element already exists we compare if it's larger or smaller than the
-            //existing element. if it's larger then we just continue.
+            }
+                //if an element already exists we compare if it's larger or smaller than the
+                //existing element. if it's larger then we just continue.
             else {
                 if (arr_[i] <= f) {
                     continue;
-                } 
-                //however if the element is smaller than existing element:
-                //we shift the array to the left starting from the posistion
-                //of the desired index.
+                }
+                    //however if the element is smaller than existing element:
+                    //we shift the array to the left starting from the posistion
+                    //of the desired index.
                 else {
                     for (int j = size_ - 1; j > i; --j) {
                         swap(arr_[j], arr_[j - 1]);
                     }
-                    
+
                     //finally we put the float in the new empty slot.
                     // and we turn the last taken index true.
                     arr_[i] = f;
@@ -113,17 +113,17 @@ public:
         }
     }
 
-    ~SortedArray(){
-        delete [] isTaken_;
+    ~SortedArray() {
+        delete[] isTaken_;
     }
 };
 
 class FrontArray : public FloatArray {
 private:
     int index_;
-    
+
 public:
-    FrontArray(int size) : FloatArray(size) {index_ = size_ - 1;}
+    FrontArray(int size) : FloatArray(size) { index_ = size_ - 1; }
 
     void add(float f) {
         arr_[index_--] = f;
@@ -138,7 +138,7 @@ public:
     void add(float f) {
         if (f > 0) {
             SortedArray::add(f);
-        }else size_--;
+        } else size_--;
     }
 };
 
@@ -150,77 +150,69 @@ public:
     void add(float f) {
         if (f < 0) {
             SortedArray::add(f);
-        }else size_--;
+        } else size_--;
     }
 };
 
 
 int main() {
 
-    string classType; int size;
+    string classType;
+    int size;
     cout << "Enter the input file's name\n";
     cin >> inputF;
 
     cout << "Enter the output file's name\n";
     cin >> outputF;
-    
-    FloatArray* objects[10];
-    ifstream inFile; inFile.open(inputF.c_str());
+
+    FloatArray *objects[10];
+    ifstream inFile;
+    inFile.open(inputF.c_str());
     int k = 0;
-    while(!inFile.eof()) {
+    while (!inFile.eof()) {
         inFile >> classType;
         inFile >> size;
-        if(classType == "Sorted")
-        {
+        if (classType == "Sorted") {
             objects[k] = new SortedArray(size);
-            for(int i = 0; i < size; i++)
-            {
+            for (int i = 0; i < size; i++) {
                 inFile >> *(objects[k]);
             }
-            cout << *objects[k]; k++;
-        }
-
-
-        else if(classType == "Array")
-        {
-            objects[k]  = new FloatArray(size);
-            for(int i = 0; i < size; i++){
+            cout << *objects[k];
+            k++;
+        } else if (classType == "Array") {
+            objects[k] = new FloatArray(size);
+            for (int i = 0; i < size; i++) {
                 inFile >> *(objects[k]);
             }
-            cout << *objects[k]; k++;
-        }
-
-
-        else if(classType == "Front")
-        {
+            cout << *objects[k];
+            k++;
+        } else if (classType == "Front") {
             objects[k] = new FrontArray(size);
-            for(int i = 0; i < size; i++){
+            for (int i = 0; i < size; i++) {
                 inFile >> *(objects[k]);
             }
-            cout << *objects[k]; k++;
-        }
-
-
-        else if(classType == "Positive")
-        {
-            objects[k]  = new PositiveArray(size);
-            for(int i = 0; i < size; i++){
+            cout << *objects[k];
+            k++;
+        } else if (classType == "Positive") {
+            objects[k] = new PositiveArray(size);
+            for (int i = 0; i < size; i++) {
                 inFile >> *(objects[k]);
             }
-            cout << *objects[k]; k++;
-        }
-
-
-        else if(classType == "Negative")
-        {
+            cout << *objects[k];
+            k++;
+        } else if (classType == "Negative") {
             objects[k] = new NegativeArray(size);
-            for(int i = 0; i < size; i++){
+            for (int i = 0; i < size; i++) {
                 inFile >> *objects[k];
             }
             cout << *objects[k];
         }
     }
 
-    delete [] objects;
+    // Delete each pointer in the dynamic array then delete the main pointer of the dynamic array
+    for (auto & object : objects) {
+        delete object;
+    }
+    delete *objects;
     inFile.close();
 }
