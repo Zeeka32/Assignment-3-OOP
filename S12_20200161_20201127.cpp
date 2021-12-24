@@ -9,7 +9,6 @@ string inputF, outputF;
 //The abstract class FloatArray.
 class FloatArray {
 private:
-    //A private int member to count the index of the array to know where to put the next element.
     int index_ = 0;
 protected:
     float *arr_;
@@ -178,7 +177,7 @@ int main() {
             {
                 inFile >> *(objects[k]);
             }
-            cout << *(objects[k]); k++;
+            cout << *objects[k]; k++;
         }
 
 
@@ -188,7 +187,7 @@ int main() {
             for(int i = 0; i < size; i++){
                 inFile >> *(objects[k]);
             }
-            cout << *(objects[k]); k++;
+            cout << *objects[k]; k++;
         }
 
 
@@ -198,7 +197,7 @@ int main() {
             for(int i = 0; i < size; i++){
                 inFile >> *(objects[k]);
             }
-            cout << *(objects[k]); k++;
+            cout << *objects[k]; k++;
         }
 
 
@@ -208,7 +207,7 @@ int main() {
             for(int i = 0; i < size; i++){
                 inFile >> *(objects[k]);
             }
-            cout << *(objects[k]); k++;
+            cout << *objects[k]; k++;
         }
 
 
