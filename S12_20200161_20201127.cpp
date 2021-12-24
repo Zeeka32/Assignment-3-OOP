@@ -105,8 +105,7 @@ public:
                     //finally we put the float in the new empty slot.
                     // and we turn the last taken index true.
                     arr_[i] = f;
-                    isTaken_[lastTaken_] = true;
-                    lastTaken_++;
+                    isTaken_[lastTaken_++] = true;
                     break;
                 }
             }
