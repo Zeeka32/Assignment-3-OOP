@@ -11,24 +11,15 @@ class FloatArray {
 private:
     //A private int member to count the index of the array to know where to put the next element.
     int index_ = 0;
-
 protected:
     float *arr_;
-    bool *isTaken_;
-    int size_, lastTaken_;
-
+    int size_;
 public:
 
     //A paramatrized constructor for the FloatArray class.
     FloatArray(int size) {
         size_ = size;
-        isTaken_ = new bool[size_];
         arr_ = new float[size_];
-        for (int i = 0; i < size_; ++i) {
-            arr_[i] = 0;
-            isTaken_[i] = false;
-        }
-        lastTaken_ = 0;
     }
 
     //a polymorphism function in this class it simply fills up an array the usual way.
@@ -48,46 +39,72 @@ public:
     }
 
     //overloading the extraction operator to read the inputs from a file.
-    friend istream &operator>>(istream &input, FloatArray &rhs) {
-        float x;
-        input >> x;
-        rhs.add(x);
+    //it first stores the float from the file then calls the right add function.
+    //using polymorphism.
+    friend istream &operator>>(istream &input, FloatArray &rhs) { 
+        float number;
+        input >> number;
+        rhs.add(number);
         return input;
     }
 
     //the destructor for the Float array.
     ~FloatArray() {
         delete[] arr_;
-        delete[] isTaken_;
     }
 
 };
 
+
+//the 2nd class the sortedarray class which inherits from the FloatArray class.
 class SortedArray : public FloatArray {
+private:
+    //these members are used for the sorting algorithm.
+     bool *isTaken_;
+     int lastTaken_;
 public:
-    SortedArray(int size) : FloatArray(size) {}
 
+    //the parameterized constructor for the SortedAarray class.
+    //we initialize an array of booleans to help with the sorting algo.
+    //and the last taken variable to store the index of the last taken element.
+    SortedArray(int size) : FloatArray(size)
+    {
+        isTaken_ = new bool[size_];
+        for (int i = 0; i < size_; ++i) {
+            arr_[i] = 0;
+            isTaken_[i] = false;
+        }
+        lastTaken_ = 0;
+    }
+
+    //the add function for the SortedArray class.
     void add(float f) {
-
-        for (int i = 0; i < size_; ++i) 
-        {
-            if (!isTaken_[i]) 
-            {
+        
+        //if the slot is empty put an element in said slot and said slot's index.
+        //becomes true meaning there is an element there.
+        for (int i = 0; i < size_; ++i) {
+            if (!isTaken_[i]) {
                 arr_[i] = f;
                 isTaken_[i] = true;
                 lastTaken_++;
                 break;
             } 
-            else
-            {
+            //if an element already exists we compare if it's larger or smaller than the
+            //existing element. if it's larger then we just continue.
+            else {
                 if (arr_[i] <= f) {
                     continue;
-                } else {
-                    for (int j = size_ - 1; j > i; --j) 
-                    {
+                } 
+                //however if the element is smaller than existing element:
+                //we shift the array to the left starting from the posistion
+                //of the desired index.
+                else {
+                    for (int j = size_ - 1; j > i; --j) {
                         swap(arr_[j], arr_[j - 1]);
                     }
                     
+                    //finally we put the float in the new empty slot.
+                    // and we turn the last taken index true.
                     arr_[i] = f;
                     isTaken_[lastTaken_] = true;
                     lastTaken_++;
@@ -95,6 +112,10 @@ public:
                 }
             }
         }
+    }
+
+    ~SortedArray(){
+        delete [] isTaken_;
     }
 };
 
