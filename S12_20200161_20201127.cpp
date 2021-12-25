@@ -1,4 +1,4 @@
-//Amr Riyad - 20201127 || Hussien Mostafa - 20200161
+//Amr Riyad - 20201127 || Hussien Mostafa - 20200161 || S11-S12 || Assignment 3
 #include <iostream>
 #include <fstream>
 
@@ -27,20 +27,19 @@ public:
         arr_[index_++] = x;
     }
 
-    //overloading the insertion operator to print output to a file.
+    //Operator Overloading.
     friend ostream &operator<<(ostream &output, const FloatArray &rhs) {
         ofstream outFile(outputF, ios::app);
+       
         outFile << rhs.size_ << "|";
         for (int i = 0; i < rhs.size_; i++) {
             outFile << "\t" << rhs.arr_[i];
         }
         outFile << "\n";
+
+        outFile.close();
         return output;
     }
-
-    //overloading the extraction operator to read the inputs from a file.
-    //it first stores the float from the file then calls the right add function.
-    //using polymorphism.
     friend istream &operator>>(istream &input, FloatArray &rhs) {
         float number;
         input >> number;
@@ -56,7 +55,7 @@ public:
 };
 
 
-//the 2nd class the sortedarray class which inherits from the FloatArray class.
+//the child class SortedArray.
 class SortedArray : public FloatArray {
 private:
     //these members are used for the sorting algorithm.
@@ -118,21 +117,26 @@ public:
     }
 };
 
-
+//The child class FrontArray.
 class FrontArray : public FloatArray {
 private:
     int index_;
 public:
+   
+    //Front array constructor.
     FrontArray(int size) : FloatArray(size) { index_ = size_ - 1; }
 
+    //the front array add function.
     void add(float f) {
         arr_[index_--] = f;
     }
 };
 
 
+//the child class PositiveArray.
 class PositiveArray : public SortedArray {
 public:
+    //PositiveArray constructor.
     PositiveArray(int size) : SortedArray(size) {}
 
     void add(float f) {
@@ -142,9 +146,10 @@ public:
     }
 };
 
-
+//the child class NegativeArray.
 class NegativeArray : public SortedArray {
 public:
+    //NegativeArray constructor.
     NegativeArray(int size) : SortedArray(size) {}
 
     void add(float f) {
@@ -156,58 +161,72 @@ public:
 
 
 int main(void) {
+
+    //string to store the classtype and object sum to loop through the objects.
     string classType;
-    int size, k = 0;
+    int size, objectSum = 0;
+
+    //prompting the user for the i/o files' name.
     cout << "Enter the input file's name\n";
     cin >> inputF;
-
     cout << "Enter the output file's name\n";
     cin >> outputF;
 
-    ifstream inFile;
+    //creating an array of pointers of the parent class.
     FloatArray *objects[10];
+
+    ifstream inFile;
     inFile.open(inputF.c_str());
     
+    //a while loop to loop over the file contents.
     while (!inFile.eof()) {
+
+        //first we input the classtype and its size from the file.
         inFile >> classType;
         inFile >> size;
+
+        //based on the class type we allocate memory accordingly then fill up
+        //the array based on the type.
         if (classType == "Sorted") {
-            objects[k] = new SortedArray(size);
+            objects[objectSum] = new SortedArray(size);
             for (int i = 0; i < size; i++) {
-                inFile >> *(objects[k]);
+                inFile >> *objects[objectSum];
             }
-            cout << *objects[k++];
+            objectSum++;
             
         } else if (classType == "Array") {
-            objects[k] = new FloatArray(size);
+            objects[objectSum] = new FloatArray(size);
             for (int i = 0; i < size; i++) {
-                inFile >> *objects[k];
+                inFile >> *objects[objectSum];
             }
-            cout << *objects[k++];
+            objectSum++;
 
         } else if (classType == "Front") {
-            objects[k] = new FrontArray(size);
+            objects[objectSum] = new FrontArray(size);
             for (int i = 0; i < size; i++) {
-                inFile >> *objects[k];
+                inFile >> *objects[objectSum];
             }
-            cout << *objects[k++];
-
+            objectSum++;
 
         } else if (classType == "Positive") {
-            objects[k] = new PositiveArray(size);
+            objects[objectSum] = new PositiveArray(size);
             for (int i = 0; i < size; i++) {
-                inFile >> *objects[k];
+                inFile >> *objects[objectSum];
             }
-            cout << *objects[k++];
+            objectSum++;
 
-            
         } else if (classType == "Negative") {
-            objects[k] = new NegativeArray(size);
+            objects[objectSum] = new NegativeArray(size);
             for (int i = 0; i < size; i++) {
-                inFile >> *objects[k];
+                inFile >> *objects[objectSum];
             }
-            cout << *objects[k++];
+            objectSum++;
         }
+    }
+
+    //loop to print the items.
+    for(int i = 0; i < objectSum; i++){
+        cout << *objects[i];
     }
 
     // Delete each pointer in the dynamic array then delete the main pointer of the dynamic array
