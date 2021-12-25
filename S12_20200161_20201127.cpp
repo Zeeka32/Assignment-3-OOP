@@ -128,7 +128,10 @@ public:
 
     //the front array add function.
     void add(float f) {
-        arr_[index_--] = f;
+        for (int j = size_ - 1; j > 0; --j) {
+            swap(arr_[j], arr_[j - 1]);
+        }
+        arr_[0] = f;
     }
 };
 
