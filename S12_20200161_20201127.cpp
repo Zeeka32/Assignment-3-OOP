@@ -28,19 +28,17 @@ public:
     }
 
     //Operator Overloading.
-    friend ostream &operator<<(ostream &output, const FloatArray &rhs) {
-        ofstream outFile(outputF, ios::app);
-       
-        outFile << rhs.size_ << "|";
-        for (int i = 0; i < rhs.size_; i++) {
-            outFile << "\t" << rhs.arr_[i];
-        }
-        outFile << "\n";
+    friend ofstream &operator<<(ofstream &output, const FloatArray &rhs) {
 
-        outFile.close();
+        output << rhs.size_ << "|";
+        for (int i = 0; i < rhs.size_; i++) {
+            output << "\t" << rhs.arr_[i];
+        }
+        output << "\n";
         return output;
     }
-    friend istream &operator>>(istream &input, FloatArray &rhs) {
+
+    friend ifstream &operator>>(ifstream &input, FloatArray &rhs) {
         float number;
         input >> number;
         rhs.add(number);
@@ -108,7 +106,7 @@ public:
             }
         }
     }
-    
+
     //destructor for the SortedArray class to free allocated memory.
     ~SortedArray() {
         delete[] isTaken_;
@@ -120,7 +118,7 @@ class FrontArray : public FloatArray {
 private:
     int index_;
 public:
-   
+
     //Front array constructor.
     FrontArray(int size) : FloatArray(size) { index_ = size_ - 1; }
 
@@ -161,7 +159,7 @@ public:
 };
 
 
-int main(void) {
+int main() {
 
     //string to store the classtype and object sum to loop through the objects.
     string classType;
@@ -178,7 +176,8 @@ int main(void) {
 
     ifstream inFile;
     inFile.open(inputF.c_str());
-    
+    ofstream outFile(outputF, ios::app);
+
     //a while loop to loop over the file contents.
     while (!inFile.eof()) {
 
@@ -194,7 +193,7 @@ int main(void) {
                 inFile >> *objects[objectSum];
             }
             objectSum++;
-            
+
         } else if (classType == "Array") {
             objects[objectSum] = new FloatArray(size);
             for (int i = 0; i < size; i++) {
@@ -226,12 +225,13 @@ int main(void) {
     }
 
     //loop to print the items.
-    for(int i = 0; i < objectSum; i++){
-        cout << *objects[i];
+    for (int i = 0; i < objectSum; i++) {
+        outFile << *objects[i];
     }
 
     //free allocated memory.
     for (int i = 0; i < 10; i++)
         delete objects[i];
     inFile.close();
+    outFile.close();
 }
