@@ -148,9 +148,8 @@ int main() {
     //creating an array of pointers of the parent class.
     FloatArray *objects[10];
 
-    ifstream inFile;
-    inFile.open(inputF);
-    ofstream outFile(outputF, ios::app);
+    ifstream inFile(inputF);
+    ofstream outFile(outputF);
 
     //a while loop to loop over the file contents.
     while (!inFile.eof()) {
