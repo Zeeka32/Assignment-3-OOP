@@ -4,7 +4,7 @@
 
 using namespace std;
 
-//Input and output file names that the user will manually enter.
+//Public input and output file names that the user will manually enter.
 string inputF, outputF;
 
 //The abstract class FloatArray.
