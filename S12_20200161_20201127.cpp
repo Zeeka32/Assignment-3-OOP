@@ -90,11 +90,11 @@ public:
 //The child class FrontArray.
 class FrontArray : public FloatArray {
 private:
-    int index_;
+
 public:
 
     //Front array constructor.
-    FrontArray(int size) : FloatArray(size) { index_ = size_ - 1; }
+    FrontArray(int size) : FloatArray(size) {}
 
     //the front array add function.
     void add(float f) {
