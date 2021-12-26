@@ -58,8 +58,8 @@ public:
 
     void add(float f) {
 
-        //binary search to find the right index, "left" stores the first index.
-        //and "right" stores the last index of the array.
+        //binary search to find the right index to insert the number, "left" 
+        //stores the first index and "right" stores the last index of the array.
         int Left = 0, Right = lastTaken_, mid;
         while (Left < Right) {
             mid = (Left + Right) / 2;
@@ -70,7 +70,7 @@ public:
             }
         }
         
-        //shift elements to the right.
+        //shift elements to the right and insert element.
         for (int j = lastTaken_; j > Left; --j) {
             swap(arr_[j], arr_[j - 1]);
         }
@@ -131,18 +131,28 @@ int main() {
     string classType, inputFileName, outputFileName;
     int size, objectSum = 0;
     
-    //prompting the user for the i/o files' name.
-    cout << "Enter the input file's name\n";
-    cin >> inputFileName;
-    cout << "Enter the output file's name\n";
+    ifstream inFile;
+    ofstream outFile;
+
+    //checking if the entered file is valid.
+    do
+    {
+        cout << "Enter the input file's name:\n";
+        cin >> inputFileName;
+
+        inFile.open(inputFileName);
+        if(inFile.fail())
+            cout << "invalid file.\n\n";
+
+    } while (inFile.fail());
+    
+    //prompting the user for the output file's name and opening it.
+    cout << "Enter the output file's name:\n";
     cin >> outputFileName;
+    outFile.open(outputFileName);
 
     //creating an array of pointers of the parent class.
     FloatArray *objects[10];
-
-    //opening the i/o files.
-    ifstream inFile(inputFileName);
-    ofstream outFile(outputFileName);
 
     //loop over the file contents.
     while (!inFile.eof()) {
