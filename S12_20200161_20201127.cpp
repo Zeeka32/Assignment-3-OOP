@@ -232,9 +232,8 @@ int main(void) {
         cout << *objects[i];
     }
 
-    // Delete each pointer in the dynamic array then delete the main pointer of the dynamic array
+    //free allocated memory.
     for (int i = 0; i < 10; i++)
         delete objects[i];
-    delete *objects;
     inFile.close();
 }
