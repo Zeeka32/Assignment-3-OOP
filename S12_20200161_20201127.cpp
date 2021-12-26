@@ -94,15 +94,13 @@ public:
                     continue;
                 } else {
 
-                    //however, if the element is smaller than existing element
-                    //we shift the array to the left starting from the posistion
-                    //of the desired index.
+                    //if the number is smaller we shift the array to the left starting from
+                    //the end till the index we need to empty.
                     for (int j = size_ - 1; j > i; --j) {
                         swap(arr_[j], arr_[j - 1]);
                     }
 
-                    //finally we put the float in the new empty slot.
-                    // and we turn the last taken index true.
+                    //add the number to the array and turn that index true.
                     arr_[i] = f;
                     isTaken_[lastTaken_++] = true;
                     break;
