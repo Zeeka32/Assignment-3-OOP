@@ -28,7 +28,7 @@ public:
     }
 
     //Operator Overloading.
-    friend ofstream &operator<<(ofstream &output, const FloatArray &rhs) {
+    friend ofstream &operator<<(ofstream &output, FloatArray &rhs) {
 
         output << rhs.size_ << "|";
         for (int i = 0; i < rhs.size_; i++) {
@@ -57,7 +57,6 @@ public:
 class SortedArray : public FloatArray {
 private:
     //these members are used for the sorting algorithm.
-    bool *isTaken_;
     int lastTaken_;
 public:
 
@@ -65,36 +64,26 @@ public:
     //we initialize an array of booleans to help with the sorting algo.
     //and the last taken variable to store the index of the last taken element.
     SortedArray(int size) : FloatArray(size) {
-        isTaken_ = new bool[size_];
-        for (int i = 0; i < size_; ++i) {
-            arr_[i] = 0;
-            isTaken_[i] = false;
-        }
         lastTaken_ = 0;
     }
 
     //the add function for the SortedArray class.
     void add(float f) {
-        /// Binary search method
+        //Binary search to find the right index.
         int l = 0, r = lastTaken_, mid;
         while (l < r) {
-            mid = (l + r) >> 1;
-            if (!isTaken_[mid] || arr_[mid] > f) {
+            mid = (l + r) / 2;
+            if (arr_[mid] > f) {
                 r = mid;
             } else {
                 l = mid + 1;
             }
         }
-        for (int j = size_ - 1; j > l; --j) {
+        for (int j = lastTaken_; j > l; --j) {
             swap(arr_[j], arr_[j - 1]);
         }
         arr_[l] = f;
-        isTaken_[lastTaken_++] = true;
-    }
-
-    //destructor for the SortedArray class to free allocated memory.
-    ~SortedArray() {
-        delete[] isTaken_;
+        lastTaken_++;
     }
 };
 
@@ -160,7 +149,7 @@ int main() {
     FloatArray *objects[10];
 
     ifstream inFile;
-    inFile.open(inputF.c_str());
+    inFile.open(inputF);
     ofstream outFile(outputF, ios::app);
 
     //a while loop to loop over the file contents.
@@ -217,6 +206,8 @@ int main() {
     //free allocated memory.
     for (int i = 0; i < 10; i++)
         delete objects[i];
+
+    //close the opened files.
     inFile.close();
     outFile.close();
 }
