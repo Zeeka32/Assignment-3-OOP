@@ -75,36 +75,21 @@ public:
 
     //the add function for the SortedArray class.
     void add(float f) {
-
-        //if the slot is empty put an element in said slot and said slot's index.
-        //becomes true meaning there is an element there.
-        for (int i = 0; i < size_; ++i) {
-            if (!isTaken_[i]) {
-                arr_[i] = f;
-                isTaken_[i] = true;
-                lastTaken_++;
-                break;
+        /// Binary search method
+        int l = 0, r = lastTaken_, mid;
+        while (l < r) {
+            mid = (l + r) >> 1;
+            if (!isTaken_[mid] || arr_[mid] > f) {
+                r = mid;
             } else {
-
-                //if an element already exists we compare if it's larger or smaller than the
-                //existing element. if it's larger then we just continue.
-                if (arr_[i] <= f) {
-                    continue;
-                } else {
-
-                    //if the number is smaller we shift the array to the left starting from
-                    //the end till the index we need to empty.
-                    for (int j = size_ - 1; j > i; --j) {
-                        swap(arr_[j], arr_[j - 1]);
-                    }
-
-                    //add the number to the array and turn that index true.
-                    arr_[i] = f;
-                    isTaken_[lastTaken_++] = true;
-                    break;
-                }
+                l = mid + 1;
             }
         }
+        for (int j = size_ - 1; j > l; --j) {
+            swap(arr_[j], arr_[j - 1]);
+        }
+        arr_[l] = f;
+        isTaken_[lastTaken_++] = true;
     }
 
     //destructor for the SortedArray class to free allocated memory.
